@@ -21,7 +21,7 @@ export class RepositoryComponent implements OnInit {
   /**
    * GitHub gists or error.
    */
-  public gitHubRepositories: GitHubRepository[] | Error;
+  public gitHubRepositories: GitHubRepository[];
 
   /**
    * No description available placeholder.
@@ -38,7 +38,11 @@ export class RepositoryComponent implements OnInit {
   ngOnInit(): void {
     this.gitHubService.getGitHubRepositories().subscribe(
       data => {
-        this.gitHubRepositories = data;
+        if (data instanceof Error) {
+          this.errorMessage = data.message;
+        } else {
+          this.gitHubRepositories = data;
+        }
       }, error => {
         this.errorMessage = error.message;
       });
