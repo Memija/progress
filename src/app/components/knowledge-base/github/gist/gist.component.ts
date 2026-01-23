@@ -21,7 +21,7 @@ export class GistComponent implements OnInit {
   /**
    * GitHub gists or error.
    */
-  public gitHubGists: GitHubGist[] | Error;
+  public gitHubGists: GitHubGist[];
 
   /**
    * Search term.
@@ -33,7 +33,11 @@ export class GistComponent implements OnInit {
   ngOnInit(): void {
     this.gitHubService.getGitHubGists().subscribe(
       data => {
-        this.gitHubGists = data;
+        if (data instanceof Error) {
+          this.errorMessage = data.message;
+        } else {
+          this.gitHubGists = data;
+        }
       }, error => {
         this.errorMessage = error.message;
       });
