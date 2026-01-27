@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { GitHubGist, GitHubRepository } from 'src/app/models/github';
-import { ApplicationProgrammingInterfaceService, ErrorHandlingService } from '..';
+import { ApplicationProgrammingInterfaceService } from '../configurations/api/api.service';
+import { ErrorHandlingService } from '../handlers/error-handling.service';
 
 /**
  * GitHub service.
