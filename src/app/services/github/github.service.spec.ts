@@ -9,7 +9,6 @@ import { throwError } from 'rxjs';
 describe('GitHubService', () => {
   let service: GitHubService;
   let httpMock: HttpTestingController;
-  let apiServiceSpy: jasmine.SpyObj<ApplicationProgrammingInterfaceService>;
   let errorHandlingServiceSpy: jasmine.SpyObj<ErrorHandlingService>;
 
   beforeEach(() => {
@@ -30,7 +29,6 @@ describe('GitHubService', () => {
     });
     service = TestBed.inject(GitHubService);
     httpMock = TestBed.inject(HttpTestingController);
-    apiServiceSpy = TestBed.inject(ApplicationProgrammingInterfaceService) as jasmine.SpyObj<ApplicationProgrammingInterfaceService>;
     errorHandlingServiceSpy = TestBed.inject(ErrorHandlingService) as jasmine.SpyObj<ErrorHandlingService>;
   });
 

@@ -1,3 +1,1 @@
-import { englishLanguage as el} from './languages/english-language';
-
-export const language = el;
+export { englishLanguage as language } from './languages/english-language';

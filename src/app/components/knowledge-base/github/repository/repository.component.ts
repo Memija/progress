@@ -33,7 +33,7 @@ export class RepositoryComponent implements OnInit {
    */
   public searchTerm: string;
 
-  constructor(private gitHubService: GitHubService) { }
+  constructor(private readonly gitHubService: GitHubService) { }
 
   ngOnInit(): void {
     this.gitHubService.getGitHubRepositories().subscribe(
