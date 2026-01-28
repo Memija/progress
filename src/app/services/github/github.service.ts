@@ -16,22 +16,22 @@ export class GitHubService {
   /**
    * Error handling service.
    */
-  private errorHandlingService: ErrorHandlingService;
+  private readonly errorHandlingService: ErrorHandlingService;
 
   /**
    * GitHub gists API (Application programming interface) endpoint.
    */
-  private gitHubGistEndpoint: string;
+  private readonly gitHubGistEndpoint: string;
 
   /**
    * GitHub repositories API (Application Programming Interface) endpoint.
    */
-  private gitHubRepositoryEndpoint: string;
+  private readonly gitHubRepositoryEndpoint: string;
 
   /**
    * Http (HyperText Transfer Protocol) client.
    */
-  private httpClient: HttpClient;
+  private readonly httpClient: HttpClient;
 
   /**
    * Creates an instance of class.

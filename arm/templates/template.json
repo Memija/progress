@@ -2,50 +2,58 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "application_insights_name": {
+    "applicationInsightsName": {
       "defaultValue": "avanade-memija-dach-training-application-insights",
       "type": "String"
     },
-    "app_service_plan_name": {
+    "appServicePlanName": {
       "defaultValue": "ASP-trainingwebapprg-9329",
       "type": "String"
     },
-    "connected_service_name_value": {
+    "connectedServiceNameValue": {
       "defaultValue": "Visual Studio Enterprise (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
       "type": "String"
     },
-    "dev_environment_app_service_name": {
+    "devEnvironmentAppServiceName": {
       "defaultValue": "avanade-memija-dach-training-dev",
       "type": "String"
     },
-    "key_vault_name": {
+    "keyVaultName": {
       "defaultValue": "training-web-app",
       "type": "String"
     },
-    "production_environment_app_service_name": {
+    "location": {
+      "defaultValue": "northeurope",
+      "type": "String"
+    },
+    "productionEnvironmentAppServiceName": {
       "defaultValue": "avanade-memija-dach-training",
       "type": "String"
     },
-    "tenant_id_value": {
+    "tenantIdValue": {
       "defaultValue": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       "type": "String"
     },
-    "test_environment_app_service_name": {
+    "testEnvironmentAppServiceName": {
       "defaultValue": "avanade-memija-dach-training-test",
       "type": "String"
     },
-    "visual_studio_subscription_id": {
+    "visualStudioSubscriptionId": {
       "defaultValue": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       "type": "String"
     }
   },
-  "variables": {},
+  "variables": {
+    "allowAllDescription": "Allow all access",
+    "allowAllName": "Allow all",
+    "azureWebsitesSuffix": ".azurewebsites.net"
+  },
   "resources": [
     {
       "type": "microsoft.insights/components",
       "apiVersion": "2015-05-01",
-      "name": "[parameters('application_insights_name')]",
-      "location": "northeurope",
+      "name": "[parameters('applicationInsightsName')]",
+      "location": "[parameters('location')]",
       "kind": "web",
       "properties": {
         "Application_Type": "web",
@@ -56,17 +64,17 @@
     {
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2016-10-01",
-      "name": "[parameters('key_vault_name')]",
-      "location": "northeurope",
+      "name": "[parameters('keyVaultName')]",
+      "location": "[parameters('location')]",
       "properties": {
         "sku": {
           "family": "A",
           "name": "Standard"
         },
-        "tenantId": "parameters('tenant_id_value')",
+        "tenantId": "[parameters('tenantIdValue')]",
         "accessPolicies": [
           {
-            "tenantId": "parameters('tenant_id_value')",
+            "tenantId": "[parameters('tenantIdValue')]",
             "objectId": "142e3512-d569-41d1-9092-a3a5fce500c7",
             "permissions": {
               "keys": [
@@ -118,7 +126,7 @@
             }
           },
           {
-            "tenantId": "parameters('tenant_id_value')",
+            "tenantId": "[parameters('tenantIdValue')]",
             "objectId": "8950297e-6d8d-49bb-94ef-34ac7fec726b",
             "permissions": {
               "keys": [
@@ -170,7 +178,7 @@
             }
           },
           {
-            "tenantId": "parameters('tenant_id_value')",
+            "tenantId": "[parameters('tenantIdValue')]",
             "objectId": "46ffcf7a-72ea-4a6b-8191-010d6abe3ee7",
             "permissions": {
               "keys": [
@@ -214,15 +222,13 @@
             }
           },
           {
-            "tenantId": "parameters('tenant_id_value')",
+            "tenantId": "[parameters('tenantIdValue')]",
             "objectId": "ad7e7287-2a37-4a2f-8073-b62ab40ba6f9",
             "permissions": {
-              "keys": [],
               "secrets": [
                 "Get",
                 "List"
-              ],
-              "certificates": []
+              ]
             }
           }
         ],
@@ -234,8 +240,8 @@
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2018-02-01",
-      "name": "[parameters('app_service_plan_name')]",
-      "location": "northeurope",
+      "name": "[parameters('appServicePlanName')]",
+      "location": "[parameters('location')]",
       "sku": {
         "name": "B1",
         "tier": "Basic",
@@ -262,7 +268,7 @@
       "name": "failure anomalies - avanade-memija-dach-training-application-insights",
       "location": "global",
       "dependsOn": [
-        "[resourceId('microsoft.insights/components', parameters('application_insights_name'))]"
+        "[resourceId('microsoft.insights/components', parameters('applicationInsightsName'))]"
       ],
       "properties": {
         "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls.",
@@ -273,11 +279,11 @@
           "id": "FailureAnomaliesDetector"
         },
         "scope": [
-          "[resourceId('microsoft.insights/components', parameters('application_insights_name'))]"
+          "[resourceId('microsoft.insights/components', parameters('applicationInsightsName'))]"
         ],
         "actionGroups": {
           "groupIds": [
-            "[concat('/subscriptions/', parameters('visual_studio_subscription_id'), '/resourceGroups/training-web-app-rg/providers/microsoft.insights/actiongroups/application%20insights%20smart%20detection')]"
+            "[concat('/subscriptions/', parameters('visualStudioSubscriptionId'), '/resourceGroups/training-web-app-rg/providers/microsoft.insights/actiongroups/application%20insights%20smart%20detection')]"
           ]
         }
       }
@@ -285,43 +291,43 @@
     {
       "type": "Microsoft.KeyVault/vaults/secrets",
       "apiVersion": "2016-10-01",
-      "name": "[concat(parameters('key_vault_name'), '/ConnectedServiceName')]",
-      "location": "northeurope",
+      "name": "[concat(parameters('keyVaultName'), '/ConnectedServiceName')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('key_vault_name'))]"
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
       ],
       "properties": {
         "contentType": "Visual Studio Enterprise",
         "attributes": {
           "enabled": true
         },
-        "value": "parameters('connected_service_name_value')"
+        "value": "[parameters('connectedServiceNameValue')]"
       }
     },
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-11-01",
-      "name": "[parameters('production_environment_app_service_name')]",
-      "location": "northeurope",
+      "name": "[parameters('productionEnvironmentAppServiceName')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('app_service_plan_name'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
       "kind": "app,linux",
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
           {
-            "name": "[concat(parameters('production_environment_app_service_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('productionEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
             "sslState": "Disabled",
             "hostType": "Standard"
           },
           {
-            "name": "[concat(parameters('production_environment_app_service_name'), '.scm.azurewebsites.net')]",
+            "name": "[concat(parameters('productionEnvironmentAppServiceName'), '.scm', variables('azureWebsitesSuffix'))]",
             "sslState": "Disabled",
             "hostType": "Repository"
           }
         ],
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('app_service_plan_name'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
         "reserved": true,
         "isXenon": false,
         "hyperV": false,
@@ -338,27 +344,27 @@
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-11-01",
-      "name": "[parameters('dev_environment_app_service_name')]",
-      "location": "northeurope",
+      "name": "[parameters('devEnvironmentAppServiceName')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('app_service_plan_name'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
       "kind": "app,linux",
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
           {
-            "name": "[concat(parameters('dev_environment_app_service_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('devEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
             "sslState": "Disabled",
             "hostType": "Standard"
           },
           {
-            "name": "[concat(parameters('dev_environment_app_service_name'), '.scm.azurewebsites.net')]",
+            "name": "[concat(parameters('devEnvironmentAppServiceName'), '.scm', variables('azureWebsitesSuffix'))]",
             "sslState": "Disabled",
             "hostType": "Repository"
           }
         ],
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('app_service_plan_name'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
         "reserved": true,
         "isXenon": false,
         "hyperV": false,
@@ -375,27 +381,27 @@
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-11-01",
-      "name": "[parameters('test_environment_app_service_name')]",
-      "location": "northeurope",
+      "name": "[parameters('testEnvironmentAppServiceName')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('app_service_plan_name'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
       "kind": "app,linux",
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
           {
-            "name": "[concat(parameters('test_environment_app_service_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('testEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
             "sslState": "Disabled",
             "hostType": "Standard"
           },
           {
-            "name": "[concat(parameters('test_environment_app_service_name'), '.scm.azurewebsites.net')]",
+            "name": "[concat(parameters('testEnvironmentAppServiceName'), '.scm', variables('azureWebsitesSuffix'))]",
             "sslState": "Disabled",
             "hostType": "Repository"
           }
         ],
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('app_service_plan_name'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
         "reserved": true,
         "isXenon": false,
         "hyperV": false,
@@ -412,10 +418,10 @@
     {
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('production_environment_app_service_name'), '/web')]",
-      "location": "northeurope",
+      "name": "[concat(parameters('productionEnvironmentAppServiceName'), '/web')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('production_environment_app_service_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('productionEnvironmentAppServiceName'))]"
       ],
       "properties": {
         "numberOfWorkers": 1,
@@ -431,9 +437,6 @@
           "hostingstart.html"
         ],
         "netFrameworkVersion": "v4.0",
-        "phpVersion": "",
-        "pythonVersion": "",
-        "nodeVersion": "",
         "linuxFxVersion": "NODE|10-lts",
         "requestTracingEnabled": false,
         "remoteDebuggingEnabled": false,
@@ -441,7 +444,7 @@
         "httpLoggingEnabled": false,
         "logsDirectorySizeLimit": 35,
         "detailedErrorLoggingEnabled": false,
-        "publishingUsername": "[concat('$', parameters('production_environment_app_service_name'))]",
+        "publishingUsername": "[concat('$', parameters('productionEnvironmentAppServiceName'))]",
         "scmType": "VSTSRM",
         "use32BitWorkerProcess": true,
         "webSocketsEnabled": false,
@@ -452,8 +455,7 @@
           {
             "virtualPath": "/",
             "physicalPath": "site\\wwwroot",
-            "preloadEnabled": false,
-            "virtualDirectories": null
+            "preloadEnabled": false
           }
         ],
         "winAuthAdminState": 0,
@@ -461,37 +463,13 @@
         "customAppPoolIdentityAdminState": false,
         "customAppPoolIdentityTenantState": false,
         "loadBalancing": "LeastRequests",
-        "routingRules": [],
         "experiments": {
           "rampUpRules": []
         },
         "autoHealEnabled": false,
-        "vnetName": "",
         "siteAuthEnabled": false,
         "siteAuthSettings": {
-          "enabled": null,
-          "unauthenticatedClientAction": null,
-          "tokenStoreEnabled": null,
-          "allowedExternalRedirectUrls": null,
-          "defaultProvider": null,
-          "clientId": null,
-          "clientSecret": null,
-          "clientSecretCertificateThumbprint": null,
-          "issuer": null,
-          "allowedAudiences": null,
-          "additionalLoginParams": null,
-          "isAadAutoProvisioned": false,
-          "googleClientId": null,
-          "googleClientSecret": null,
-          "googleOAuthScopes": null,
-          "facebookAppId": null,
-          "facebookAppSecret": null,
-          "facebookOAuthScopes": null,
-          "twitterConsumerKey": null,
-          "twitterConsumerSecret": null,
-          "microsoftAccountClientId": null,
-          "microsoftAccountClientSecret": null,
-          "microsoftAccountOAuthScopes": null
+          "isAadAutoProvisioned": false
         },
         "localMySqlEnabled": false,
         "ipSecurityRestrictions": [
@@ -499,8 +477,8 @@
             "ipAddress": "Any",
             "action": "Allow",
             "priority": 1,
-            "name": "Allow all",
-            "description": "Allow all access"
+            "name": "[variables('allowAllName')]",
+            "description": "[variables('allowAllDescription')]"
           }
         ],
         "scmIpSecurityRestrictions": [
@@ -508,8 +486,8 @@
             "ipAddress": "Any",
             "action": "Allow",
             "priority": 1,
-            "name": "Allow all",
-            "description": "Allow all access"
+            "name": "[variables('allowAllName')]",
+            "description": "[variables('allowAllDescription')]"
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
@@ -524,10 +502,10 @@
     {
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('dev_environment_app_service_name'), '/web')]",
-      "location": "northeurope",
+      "name": "[concat(parameters('devEnvironmentAppServiceName'), '/web')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('dev_environment_app_service_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('devEnvironmentAppServiceName'))]"
       ],
       "properties": {
         "numberOfWorkers": 1,
@@ -543,9 +521,6 @@
           "hostingstart.html"
         ],
         "netFrameworkVersion": "v4.0",
-        "phpVersion": "",
-        "pythonVersion": "",
-        "nodeVersion": "",
         "linuxFxVersion": "NODE|10-lts",
         "requestTracingEnabled": false,
         "remoteDebuggingEnabled": false,
@@ -553,7 +528,7 @@
         "httpLoggingEnabled": false,
         "logsDirectorySizeLimit": 35,
         "detailedErrorLoggingEnabled": false,
-        "publishingUsername": "[concat('$', parameters('dev_environment_app_service_name'))]",
+        "publishingUsername": "[concat('$', parameters('devEnvironmentAppServiceName'))]",
         "scmType": "VSTSRM",
         "use32BitWorkerProcess": true,
         "webSocketsEnabled": false,
@@ -564,8 +539,7 @@
           {
             "virtualPath": "/",
             "physicalPath": "site\\wwwroot",
-            "preloadEnabled": false,
-            "virtualDirectories": null
+            "preloadEnabled": false
           }
         ],
         "winAuthAdminState": 0,
@@ -573,37 +547,13 @@
         "customAppPoolIdentityAdminState": false,
         "customAppPoolIdentityTenantState": false,
         "loadBalancing": "LeastRequests",
-        "routingRules": [],
         "experiments": {
           "rampUpRules": []
         },
         "autoHealEnabled": false,
-        "vnetName": "",
         "siteAuthEnabled": false,
         "siteAuthSettings": {
-          "enabled": null,
-          "unauthenticatedClientAction": null,
-          "tokenStoreEnabled": null,
-          "allowedExternalRedirectUrls": null,
-          "defaultProvider": null,
-          "clientId": null,
-          "clientSecret": null,
-          "clientSecretCertificateThumbprint": null,
-          "issuer": null,
-          "allowedAudiences": null,
-          "additionalLoginParams": null,
-          "isAadAutoProvisioned": false,
-          "googleClientId": null,
-          "googleClientSecret": null,
-          "googleOAuthScopes": null,
-          "facebookAppId": null,
-          "facebookAppSecret": null,
-          "facebookOAuthScopes": null,
-          "twitterConsumerKey": null,
-          "twitterConsumerSecret": null,
-          "microsoftAccountClientId": null,
-          "microsoftAccountClientSecret": null,
-          "microsoftAccountOAuthScopes": null
+          "isAadAutoProvisioned": false
         },
         "localMySqlEnabled": false,
         "ipSecurityRestrictions": [
@@ -611,8 +561,8 @@
             "ipAddress": "Any",
             "action": "Allow",
             "priority": 1,
-            "name": "Allow all",
-            "description": "Allow all access"
+            "name": "[variables('allowAllName')]",
+            "description": "[variables('allowAllDescription')]"
           }
         ],
         "scmIpSecurityRestrictions": [
@@ -620,8 +570,8 @@
             "ipAddress": "Any",
             "action": "Allow",
             "priority": 1,
-            "name": "Allow all",
-            "description": "Allow all access"
+            "name": "[variables('allowAllName')]",
+            "description": "[variables('allowAllDescription')]"
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
@@ -636,10 +586,10 @@
     {
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('test_environment_app_service_name'), '/web')]",
-      "location": "northeurope",
+      "name": "[concat(parameters('testEnvironmentAppServiceName'), '/web')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('test_environment_app_service_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('testEnvironmentAppServiceName'))]"
       ],
       "properties": {
         "numberOfWorkers": 1,
@@ -655,9 +605,6 @@
           "hostingstart.html"
         ],
         "netFrameworkVersion": "v4.0",
-        "phpVersion": "",
-        "pythonVersion": "",
-        "nodeVersion": "",
         "linuxFxVersion": "NODE|10-lts",
         "requestTracingEnabled": false,
         "remoteDebuggingEnabled": false,
@@ -665,7 +612,7 @@
         "httpLoggingEnabled": false,
         "logsDirectorySizeLimit": 35,
         "detailedErrorLoggingEnabled": false,
-        "publishingUsername": "[concat('$', parameters('test_environment_app_service_name'))]",
+        "publishingUsername": "[concat('$', parameters('testEnvironmentAppServiceName'))]",
         "scmType": "VSTSRM",
         "use32BitWorkerProcess": true,
         "webSocketsEnabled": false,
@@ -676,8 +623,7 @@
           {
             "virtualPath": "/",
             "physicalPath": "site\\wwwroot",
-            "preloadEnabled": false,
-            "virtualDirectories": null
+            "preloadEnabled": false
           }
         ],
         "winAuthAdminState": 0,
@@ -685,37 +631,13 @@
         "customAppPoolIdentityAdminState": false,
         "customAppPoolIdentityTenantState": false,
         "loadBalancing": "LeastRequests",
-        "routingRules": [],
         "experiments": {
           "rampUpRules": []
         },
         "autoHealEnabled": false,
-        "vnetName": "",
         "siteAuthEnabled": false,
         "siteAuthSettings": {
-          "enabled": null,
-          "unauthenticatedClientAction": null,
-          "tokenStoreEnabled": null,
-          "allowedExternalRedirectUrls": null,
-          "defaultProvider": null,
-          "clientId": null,
-          "clientSecret": null,
-          "clientSecretCertificateThumbprint": null,
-          "issuer": null,
-          "allowedAudiences": null,
-          "additionalLoginParams": null,
-          "isAadAutoProvisioned": false,
-          "googleClientId": null,
-          "googleClientSecret": null,
-          "googleOAuthScopes": null,
-          "facebookAppId": null,
-          "facebookAppSecret": null,
-          "facebookOAuthScopes": null,
-          "twitterConsumerKey": null,
-          "twitterConsumerSecret": null,
-          "microsoftAccountClientId": null,
-          "microsoftAccountClientSecret": null,
-          "microsoftAccountOAuthScopes": null
+          "isAadAutoProvisioned": false
         },
         "localMySqlEnabled": false,
         "ipSecurityRestrictions": [
@@ -723,8 +645,8 @@
             "ipAddress": "Any",
             "action": "Allow",
             "priority": 1,
-            "name": "Allow all",
-            "description": "Allow all access"
+            "name": "[variables('allowAllName')]",
+            "description": "[variables('allowAllDescription')]"
           }
         ],
         "scmIpSecurityRestrictions": [
@@ -732,8 +654,8 @@
             "ipAddress": "Any",
             "action": "Allow",
             "priority": 1,
-            "name": "Allow all",
-            "description": "Allow all access"
+            "name": "[variables('allowAllName')]",
+            "description": "[variables('allowAllDescription')]"
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
@@ -748,39 +670,39 @@
     {
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('production_environment_app_service_name'), '/', parameters('production_environment_app_service_name'), '.azurewebsites.net')]",
-      "location": "northeurope",
+      "name": "[concat(parameters('productionEnvironmentAppServiceName'), '/', parameters('productionEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('production_environment_app_service_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('productionEnvironmentAppServiceName'))]"
       ],
       "properties": {
-        "siteName": "parameters('production_environment_app_service_name')",
+        "siteName": "[parameters('productionEnvironmentAppServiceName')]",
         "hostNameType": "Verified"
       }
     },
     {
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('dev_environment_app_service_name'), '/', parameters('dev_environment_app_service_name'), '.azurewebsites.net')]",
-      "location": "northeurope",
+      "name": "[concat(parameters('devEnvironmentAppServiceName'), '/', parameters('devEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('dev_environment_app_service_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('devEnvironmentAppServiceName'))]"
       ],
       "properties": {
-        "siteName": "parameters('dev_environment_app_service_name')",
+        "siteName": "[parameters('devEnvironmentAppServiceName')]",
         "hostNameType": "Verified"
       }
     },
     {
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('test_environment_app_service_name'), '/', parameters('test_environment_app_service_name'), '.azurewebsites.net')]",
-      "location": "northeurope",
+      "name": "[concat(parameters('testEnvironmentAppServiceName'), '/', parameters('testEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
+      "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('test_environment_app_service_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('testEnvironmentAppServiceName'))]"
       ],
       "properties": {
-        "siteName": "parameters('test_environment_app_service_name')",
+        "siteName": "[parameters('testEnvironmentAppServiceName')]",
         "hostNameType": "Verified"
       }
     }
