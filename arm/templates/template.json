@@ -309,9 +309,6 @@
       "apiVersion": "2018-11-01",
       "name": "[parameters('productionEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
-      ],
       "kind": "app,linux",
       "properties": {
         "enabled": true,
@@ -339,16 +336,16 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": false,
         "redundancyMode": "None"
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
     },
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-11-01",
       "name": "[parameters('devEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
-      ],
       "kind": "app,linux",
       "properties": {
         "enabled": true,
@@ -376,16 +373,16 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": false,
         "redundancyMode": "None"
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
     },
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-11-01",
       "name": "[parameters('testEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
-      ],
       "kind": "app,linux",
       "properties": {
         "enabled": true,
@@ -413,7 +410,10 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": false,
         "redundancyMode": "None"
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
     },
     {
       "type": "Microsoft.Web/sites/config",
@@ -463,9 +463,6 @@
         "customAppPoolIdentityAdminState": false,
         "customAppPoolIdentityTenantState": false,
         "loadBalancing": "LeastRequests",
-        "experiments": {
-          "rampUpRules": []
-        },
         "autoHealEnabled": false,
         "siteAuthEnabled": false,
         "siteAuthSettings": {
@@ -547,9 +544,6 @@
         "customAppPoolIdentityAdminState": false,
         "customAppPoolIdentityTenantState": false,
         "loadBalancing": "LeastRequests",
-        "experiments": {
-          "rampUpRules": []
-        },
         "autoHealEnabled": false,
         "siteAuthEnabled": false,
         "siteAuthSettings": {
@@ -631,9 +625,6 @@
         "customAppPoolIdentityAdminState": false,
         "customAppPoolIdentityTenantState": false,
         "loadBalancing": "LeastRequests",
-        "experiments": {
-          "rampUpRules": []
-        },
         "autoHealEnabled": false,
         "siteAuthEnabled": false,
         "siteAuthSettings": {
