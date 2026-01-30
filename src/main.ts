@@ -7,5 +7,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+// Top-level await is not supported by the current Angular/Webpack build configuration
+platformBrowserDynamic().bootstrapModule(AppModule) // NOSONAR
   .catch(error => console.error(error));
