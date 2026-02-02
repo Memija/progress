@@ -1,7 +1,7 @@
 /**
  * GitHub User.
  */
-export class GitHubUser {
+export interface GitHubUser {
   /**
    * Username.
    */

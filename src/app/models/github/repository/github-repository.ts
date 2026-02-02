@@ -1,9 +1,9 @@
-import { GitHubUser } from '../user/GitHubUser';
+import { GitHubUser } from '../user/github-user';
 
 /**
  * GitHub Repository.
  */
-export class GitHubRepository {
+export interface GitHubRepository {
   /**
    * Unique identifier.
    */

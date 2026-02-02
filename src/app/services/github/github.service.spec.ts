@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { GitHubService } from './github.service';
-import { ApplicationProgrammingInterfaceService } from 'src/app/services/configurations/api/api.service';
+import { ApiService } from 'src/app/services/configurations/api/api.service';
 import { ErrorHandlingService } from 'src/app/services/handlers/error-handling.service';
 import { GitHubGist, GitHubRepository } from 'src/app/models/github';
 import { throwError } from 'rxjs';
@@ -12,18 +12,18 @@ describe('GitHubService', () => {
   let errorHandlingServiceSpy: jasmine.SpyObj<ErrorHandlingService>;
 
   beforeEach(() => {
-    const apiSpy = jasmine.createSpyObj('ApplicationProgrammingInterfaceService', ['getGitHubGistEndpoint', 'getGitHubRepositoryEndpoint']);
+    const apiSpy = jasmine.createSpyObj('ApiService', ['getGitHubGistEndpoint', 'getGitHubRepositoryEndpoint']);
     apiSpy.getGitHubGistEndpoint.and.returnValue('https://api.github.com/users/test/gists');
     apiSpy.getGitHubRepositoryEndpoint.and.returnValue('https://api.github.com/users/test/repos');
 
     const errorSpy = jasmine.createSpyObj('ErrorHandlingService', ['handleError']);
-    errorSpy.handleError.and.returnValue(throwError(new Error('Mock Error')));
+    errorSpy.handleError.and.returnValue(throwError(() => new Error('Mock Error')));
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         GitHubService,
-        { provide: ApplicationProgrammingInterfaceService, useValue: apiSpy },
+        { provide: ApiService, useValue: apiSpy },
         { provide: ErrorHandlingService, useValue: errorSpy }
       ]
     });

@@ -21,6 +21,6 @@ export class ErrorHandlingService {
       console.error(error.message);
     }
 
-    return throwError(new Error('An error has occurred. We apologize for the inconvenience. Please try again later.'));
+    return throwError(() => new Error('An error has occurred. We apologize for the inconvenience. Please try again later.'));
   }
 }

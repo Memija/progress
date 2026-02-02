@@ -7,18 +7,13 @@ import { configuration } from 'src/app/configuration/configuration';
 @Injectable({
   providedIn: 'root'
 })
-export class ApplicationProgrammingInterfaceService {
+export class ApiService {
   /**
    * Get GitHub Gist API (Application Programming Interface) endpoint.
    * @returns GitHub Gist API (Application Programming Interface) endpoint.
    */
   public getGitHubGistEndpoint(): string {
-    return configuration.gitHub.apiEndpoint +
-           configuration.gitHub.users +
-           '/' +
-           configuration.gitHub.username +
-           '/' +
-           configuration.gitHub.gists;
+    return `${configuration.gitHub.apiEndpoint}${configuration.gitHub.users}/${configuration.gitHub.username}/${configuration.gitHub.gists}`;
   }
 
   /**
@@ -26,11 +21,6 @@ export class ApplicationProgrammingInterfaceService {
   * @returns GitHub Repository API (Application Programming Interface) endpoint.
   */
   public getGitHubRepositoryEndpoint(): string {
-    return configuration.gitHub.apiEndpoint +
-           configuration.gitHub.users +
-           '/' +
-           configuration.gitHub.username +
-           '/' +
-           configuration.gitHub.repositories;
+    return `${configuration.gitHub.apiEndpoint}${configuration.gitHub.users}/${configuration.gitHub.username}/${configuration.gitHub.repositories}`;
   }
 }
