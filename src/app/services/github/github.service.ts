@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { GitHubGist, GitHubRepository } from 'src/app/models/github';
-import { ApplicationProgrammingInterfaceService } from '../configurations/api/api.service';
+import { ApiService } from '../configurations/api/api.service';
 import { ErrorHandlingService } from '../handlers/error-handling.service';
 
 /**
@@ -39,7 +39,7 @@ export class GitHubService {
    * @param errorHandlingService Error handling service.
    * @param httpClient Http (HyperText Transfer Protocol) client.
    */
-  constructor(apiService: ApplicationProgrammingInterfaceService, errorHandlingService: ErrorHandlingService, httpClient: HttpClient) {
+  constructor(apiService: ApiService, errorHandlingService: ErrorHandlingService, httpClient: HttpClient) {
     this.gitHubGistEndpoint = apiService.getGitHubGistEndpoint();
     this.gitHubRepositoryEndpoint = apiService.getGitHubRepositoryEndpoint();
     this.errorHandlingService = errorHandlingService;

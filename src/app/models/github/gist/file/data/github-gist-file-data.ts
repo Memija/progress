@@ -1,7 +1,7 @@
 /**
  * GitHub Gist File Data.
  */
-export class GitHubGistFileData {
+export interface GitHubGistFileData {
   /**
    * Filename.
    */

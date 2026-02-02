@@ -1,2 +1,2 @@
-export * from './gist/GitHubGist';
-export * from './repository/GitHubRepository';
+export * from './gist/github-gist';
+export * from './repository/github-repository';

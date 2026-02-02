@@ -1,10 +1,10 @@
-import { GitHubUser } from '../user/GitHubUser';
-import { GitHubGistFile } from './file/GitHubGistFile';
+import { GitHubUser } from '../user/github-user';
+import { GitHubGistFile } from './file/github-gist-file';
 
 /**
  * GitHub Gist.
  */
-export class GitHubGist {
+export interface GitHubGist {
   /**
    * URL (Uniform Resource Locator).
    */
