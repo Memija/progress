@@ -16,9 +16,8 @@ export class ErrorHandlingService {
    * @returns Error.
    */
   public handleError(error: HttpErrorResponse): Observable<Error> {
-    // Execute on non production environment only.
     if (!environment.production) {
-      console.error(error.message);
+      console.error(error.message); // NOSONAR
     }
 
     return throwError(() => new Error('An error has occurred. We apologize for the inconvenience. Please try again later.'));

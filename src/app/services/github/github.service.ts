@@ -13,31 +13,16 @@ import { ErrorHandlingService } from '../handlers/error-handling.service';
   providedIn: 'root'
 })
 export class GitHubService {
-  /**
-   * Error handling service.
-   */
   private readonly errorHandlingService: ErrorHandlingService;
-
-  /**
-   * GitHub gists API (Application programming interface) endpoint.
-   */
   private readonly gitHubGistEndpoint: string;
-
-  /**
-   * GitHub repositories API (Application Programming Interface) endpoint.
-   */
   private readonly gitHubRepositoryEndpoint: string;
-
-  /**
-   * Http (HyperText Transfer Protocol) client.
-   */
   private readonly httpClient: HttpClient;
 
   /**
    * Creates an instance of class.
-   * @param apiService API (Application Programming Interface) service.
+   * @param apiService API service.
    * @param errorHandlingService Error handling service.
-   * @param httpClient Http (HyperText Transfer Protocol) client.
+   * @param httpClient Http client.
    */
   constructor(apiService: ApiService, errorHandlingService: ErrorHandlingService, httpClient: HttpClient) {
     this.gitHubGistEndpoint = apiService.getGitHubGistEndpoint();

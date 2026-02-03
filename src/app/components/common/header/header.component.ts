@@ -17,8 +17,6 @@ export class HeaderComponent implements OnInit {
    */
   public name: string;
 
-  constructor() { }
-
   ngOnInit(): void {
     this.name = configuration.gitHub.username.concat(' ', configuration.application.title);
   }

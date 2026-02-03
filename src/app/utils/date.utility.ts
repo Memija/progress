@@ -2,6 +2,8 @@
  * Date utility.
  */
 export class DateUtility {
+  private constructor() { }
+
   /**
    * Get current year value.
    * @returns Current year value.

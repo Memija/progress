@@ -22,8 +22,6 @@ export class NavigationComponent implements OnInit {
    */
   public homeRouteValue: string;
 
-  constructor() { }
-
   ngOnInit(): void {
     this.homeRouteName = configuration.route.name.home;
     this.homeRouteValue = configuration.route.value.home;

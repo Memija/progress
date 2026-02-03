@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { GitHubGist } from 'src/app/models/github';
 import { GitHubService } from 'src/app/services/github/github.service';
 
@@ -12,7 +14,12 @@ import { GitHubService } from 'src/app/services/github/github.service';
     '../github.component.less'
   ]
 })
-export class GistComponent implements OnInit {
+export class GistComponent implements OnInit, OnDestroy {
+  /**
+   * Unsubscribe.
+   */
+  private readonly unsubscribe = new Subject<void>();
+
   /**
    * Error message.
    */
@@ -31,16 +38,23 @@ export class GistComponent implements OnInit {
   constructor(private readonly gitHubService: GitHubService) { }
 
   ngOnInit(): void {
-    this.gitHubService.getGitHubGists().subscribe(
-      data => {
-        if (data instanceof Error) {
-          this.errorMessage = data.message;
-        } else {
-          this.gitHubGists = data;
-        }
-      }, error => {
-        this.errorMessage = error.message;
-      });
+    this.gitHubService.getGitHubGists()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+        data => {
+          if (data instanceof Error) {
+            this.errorMessage = data.message;
+          } else {
+            this.gitHubGists = data;
+          }
+        }, error => {
+          this.errorMessage = error.message;
+        });
     this.searchTerm = '';
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
