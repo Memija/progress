@@ -23,8 +23,6 @@ export class FooterComponent implements OnInit {
    */
   public year: number;
 
-  constructor() { }
-
   ngOnInit(): void {
     this.version = configuration.version;
     this.year = DateUtility.getCurrentYearValue();
