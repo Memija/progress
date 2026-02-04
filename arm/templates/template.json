@@ -3,44 +3,44 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "applicationInsightsName": {
-      "defaultValue": "avanade-memija-dach-training-application-insights",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "avanade-memija-dach-training-application-insights"
     },
     "appServicePlanName": {
-      "defaultValue": "ASP-trainingwebapprg-9329",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "ASP-trainingwebapprg-9329"
     },
     "connectedServiceNameValue": {
-      "defaultValue": "Visual Studio Enterprise (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "Visual Studio Enterprise (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
     },
     "devEnvironmentAppServiceName": {
-      "defaultValue": "avanade-memija-dach-training-dev",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "avanade-memija-dach-training-dev"
     },
     "keyVaultName": {
-      "defaultValue": "training-web-app",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "training-web-app"
     },
     "location": {
-      "defaultValue": "northeurope",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "northeurope"
     },
     "productionEnvironmentAppServiceName": {
-      "defaultValue": "avanade-memija-dach-training",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "avanade-memija-dach-training"
     },
     "tenantIdValue": {
-      "defaultValue": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
     },
     "testEnvironmentAppServiceName": {
-      "defaultValue": "avanade-memija-dach-training-test",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "avanade-memija-dach-training-test"
     },
     "visualStudioSubscriptionId": {
-      "defaultValue": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      "type": "String"
+      "type": "String",
+      "defaultValue": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
     }
   },
   "variables": {
