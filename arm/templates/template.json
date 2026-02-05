@@ -267,6 +267,9 @@
       "apiVersion": "2019-06-01",
       "name": "failure anomalies - avanade-memija-dach-training-application-insights",
       "location": "global",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('applicationInsightsName'))]"
+      ],
       "properties": {
         "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls.",
         "state": "Enabled",
@@ -283,26 +286,23 @@
             "[concat('/subscriptions/', parameters('visualStudioSubscriptionId'), '/resourceGroups/training-web-app-rg/providers/microsoft.insights/actiongroups/application%20insights%20smart%20detection')]"
           ]
         }
-      },
-      "dependsOn": [
-        "[resourceId('microsoft.insights/components', parameters('applicationInsightsName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.KeyVault/vaults/secrets",
       "apiVersion": "2016-10-01",
       "name": "[concat(parameters('keyVaultName'), '/ConnectedServiceName')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+      ],
       "properties": {
         "contentType": "Visual Studio Enterprise",
         "attributes": {
           "enabled": true
         },
         "value": "[parameters('connectedServiceNameValue')]"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites",
@@ -310,6 +310,9 @@
       "name": "[parameters('productionEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ],
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
@@ -336,10 +339,7 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": false,
         "redundancyMode": "None"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites",
@@ -347,6 +347,9 @@
       "name": "[parameters('devEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ],
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
@@ -373,10 +376,7 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": false,
         "redundancyMode": "None"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites",
@@ -384,6 +384,9 @@
       "name": "[parameters('testEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ],
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
@@ -410,16 +413,16 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": false,
         "redundancyMode": "None"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('productionEnvironmentAppServiceName'), '/web')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('productionEnvironmentAppServiceName'))]"
+      ],
       "properties": {
         "numberOfWorkers": 1,
         "defaultDocuments": [
@@ -491,16 +494,16 @@
         "reservedInstanceCount": 0,
         "fileChangeAuditEnabled": false,
         "functionsRuntimeScaleMonitoringEnabled": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('productionEnvironmentAppServiceName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('devEnvironmentAppServiceName'), '/web')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('devEnvironmentAppServiceName'))]"
+      ],
       "properties": {
         "numberOfWorkers": 1,
         "defaultDocuments": [
@@ -572,16 +575,16 @@
         "reservedInstanceCount": 0,
         "fileChangeAuditEnabled": false,
         "functionsRuntimeScaleMonitoringEnabled": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('devEnvironmentAppServiceName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('testEnvironmentAppServiceName'), '/web')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('testEnvironmentAppServiceName'))]"
+      ],
       "properties": {
         "numberOfWorkers": 1,
         "defaultDocuments": [
@@ -653,49 +656,46 @@
         "reservedInstanceCount": 0,
         "fileChangeAuditEnabled": false,
         "functionsRuntimeScaleMonitoringEnabled": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('testEnvironmentAppServiceName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('productionEnvironmentAppServiceName'), '/', parameters('productionEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('productionEnvironmentAppServiceName'))]"
+      ],
       "properties": {
         "siteName": "[parameters('productionEnvironmentAppServiceName')]",
         "hostNameType": "Verified"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('productionEnvironmentAppServiceName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('devEnvironmentAppServiceName'), '/', parameters('devEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('devEnvironmentAppServiceName'))]"
+      ],
       "properties": {
         "siteName": "[parameters('devEnvironmentAppServiceName')]",
         "hostNameType": "Verified"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('devEnvironmentAppServiceName'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('testEnvironmentAppServiceName'), '/', parameters('testEnvironmentAppServiceName'), variables('azureWebsitesSuffix'))]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('testEnvironmentAppServiceName'))]"
+      ],
       "properties": {
         "siteName": "[parameters('testEnvironmentAppServiceName')]",
         "hostNameType": "Verified"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('testEnvironmentAppServiceName'))]"
-      ]
+      }
     }
   ]
 }
