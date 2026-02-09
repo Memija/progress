@@ -350,7 +350,29 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": true,
         "redundancyMode": "None"
-      }
+      },
+      "resources": [
+        {
+          "type": "config",
+          "apiVersion": "2020-12-01",
+          "name": "authsettingsV2",
+          "location": "[parameters('location')]",
+          "properties": {
+            "platform": {
+              "enabled": false
+            },
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": {
+              "tokenStore": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Web/sites",
@@ -394,7 +416,29 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": true,
         "redundancyMode": "None"
-      }
+      },
+      "resources": [
+        {
+          "type": "config",
+          "apiVersion": "2020-12-01",
+          "name": "authsettingsV2",
+          "location": "[parameters('location')]",
+          "properties": {
+            "platform": {
+              "enabled": false
+            },
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": {
+              "tokenStore": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Web/sites",
@@ -438,7 +482,29 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": true,
         "redundancyMode": "None"
-      }
+      },
+      "resources": [
+        {
+          "type": "config",
+          "apiVersion": "2020-12-01",
+          "name": "authsettingsV2",
+          "location": "[parameters('location')]",
+          "properties": {
+            "platform": {
+              "enabled": false
+            },
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": {
+              "tokenStore": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Web/sites/config",
@@ -720,75 +786,6 @@
       "properties": {
         "siteName": "[parameters('testEnvironmentAppServiceName')]",
         "hostNameType": "Verified"
-      }
-    },
-    {
-      "type": "Microsoft.Web/sites/config",
-      "apiVersion": "2020-12-01",
-      "name": "[concat(parameters('productionEnvironmentAppServiceName'), '/authsettingsV2')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('productionEnvironmentAppServiceName'))]"
-      ],
-      "properties": {
-        "platform": {
-          "enabled": false
-        },
-        "globalValidation": {
-          "requireAuthentication": false,
-          "unauthenticatedClientAction": "AllowAnonymous"
-        },
-        "login": {
-          "tokenStore": {
-            "enabled": false
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Web/sites/config",
-      "apiVersion": "2020-12-01",
-      "name": "[concat(parameters('devEnvironmentAppServiceName'), '/authsettingsV2')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('devEnvironmentAppServiceName'))]"
-      ],
-      "properties": {
-        "platform": {
-          "enabled": false
-        },
-        "globalValidation": {
-          "requireAuthentication": false,
-          "unauthenticatedClientAction": "AllowAnonymous"
-        },
-        "login": {
-          "tokenStore": {
-            "enabled": false
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Web/sites/config",
-      "apiVersion": "2020-12-01",
-      "name": "[concat(parameters('testEnvironmentAppServiceName'), '/authsettingsV2')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('testEnvironmentAppServiceName'))]"
-      ],
-      "properties": {
-        "platform": {
-          "enabled": false
-        },
-        "globalValidation": {
-          "requireAuthentication": false,
-          "unauthenticatedClientAction": "AllowAnonymous"
-        },
-        "login": {
-          "tokenStore": {
-            "enabled": false
-          }
-        }
       }
     }
   ]
