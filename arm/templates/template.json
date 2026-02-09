@@ -67,7 +67,7 @@
       "name": "[parameters('keyVaultName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "enableRbacAuthorization": false,
+        "enableRbacAuthorization": true,
         "sku": {
           "family": "A",
           "name": "Standard"
@@ -235,7 +235,9 @@
         ],
         "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
-        "enabledForTemplateDeployment": true
+        "enabledForTemplateDeployment": true,
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 90
       }
     },
     {
@@ -311,6 +313,9 @@
       "name": "[parameters('productionEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
@@ -341,7 +346,37 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": true,
         "redundancyMode": "None"
-      }
+      },
+      "resources": [
+        {
+          "type": "config",
+          "apiVersion": "2020-12-01",
+          "name": "authsettingsV2",
+          "location": "[parameters('location')]",
+          "properties": {
+            "platform": {
+              "enabled": true
+            },
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": {
+              "tokenStore": {
+                "enabled": false
+              }
+            },
+            "identityProviders": {
+              "azureActiveDirectory": {
+                "enabled": false
+              }
+            }
+          },
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Web/sites",
@@ -349,6 +384,9 @@
       "name": "[parameters('devEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
@@ -379,7 +417,37 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": true,
         "redundancyMode": "None"
-      }
+      },
+      "resources": [
+        {
+          "type": "config",
+          "apiVersion": "2020-12-01",
+          "name": "authsettingsV2",
+          "location": "[parameters('location')]",
+          "properties": {
+            "platform": {
+              "enabled": true
+            },
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": {
+              "tokenStore": {
+                "enabled": false
+              }
+            },
+            "identityProviders": {
+              "azureActiveDirectory": {
+                "enabled": false
+              }
+            }
+          },
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Web/sites",
@@ -387,6 +455,9 @@
       "name": "[parameters('testEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
@@ -417,7 +488,37 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": true,
         "redundancyMode": "None"
-      }
+      },
+      "resources": [
+        {
+          "type": "config",
+          "apiVersion": "2020-12-01",
+          "name": "authsettingsV2",
+          "location": "[parameters('location')]",
+          "properties": {
+            "platform": {
+              "enabled": true
+            },
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": {
+              "tokenStore": {
+                "enabled": false
+              }
+            },
+            "identityProviders": {
+              "azureActiveDirectory": {
+                "enabled": false
+              }
+            }
+          },
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Web/sites/config",
@@ -492,7 +593,7 @@
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
-        "http20Enabled": false,
+        "http20Enabled": true,
         "minTlsVersion": "1.2",
         "ftpsState": "FtpsOnly",
         "reservedInstanceCount": 0,
@@ -573,7 +674,7 @@
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
-        "http20Enabled": false,
+        "http20Enabled": true,
         "minTlsVersion": "1.2",
         "ftpsState": "FtpsOnly",
         "reservedInstanceCount": 0,
@@ -654,7 +755,7 @@
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
-        "http20Enabled": false,
+        "http20Enabled": true,
         "minTlsVersion": "1.2",
         "ftpsState": "FtpsOnly",
         "reservedInstanceCount": 0,
@@ -699,75 +800,6 @@
       "properties": {
         "siteName": "[parameters('testEnvironmentAppServiceName')]",
         "hostNameType": "Verified"
-      }
-    },
-    {
-      "type": "Microsoft.Web/sites/config",
-      "apiVersion": "2020-12-01",
-      "name": "[concat(parameters('productionEnvironmentAppServiceName'), '/authsettingsV2')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('productionEnvironmentAppServiceName'))]"
-      ],
-      "properties": {
-        "platform": {
-          "enabled": false
-        },
-        "globalValidation": {
-          "requireAuthentication": false,
-          "unauthenticatedClientAction": "AllowAnonymous"
-        },
-        "login": {
-          "tokenStore": {
-            "enabled": false
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Web/sites/config",
-      "apiVersion": "2020-12-01",
-      "name": "[concat(parameters('devEnvironmentAppServiceName'), '/authsettingsV2')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('devEnvironmentAppServiceName'))]"
-      ],
-      "properties": {
-        "platform": {
-          "enabled": false
-        },
-        "globalValidation": {
-          "requireAuthentication": false,
-          "unauthenticatedClientAction": "AllowAnonymous"
-        },
-        "login": {
-          "tokenStore": {
-            "enabled": false
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Web/sites/config",
-      "apiVersion": "2020-12-01",
-      "name": "[concat(parameters('testEnvironmentAppServiceName'), '/authsettingsV2')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('testEnvironmentAppServiceName'))]"
-      ],
-      "properties": {
-        "platform": {
-          "enabled": false
-        },
-        "globalValidation": {
-          "requireAuthentication": false,
-          "unauthenticatedClientAction": "AllowAnonymous"
-        },
-        "login": {
-          "tokenStore": {
-            "enabled": false
-          }
-        }
       }
     }
   ]
