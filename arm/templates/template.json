@@ -66,11 +66,8 @@
       "apiVersion": "2019-09-01",
       "name": "[parameters('keyVaultName')]",
       "location": "[parameters('location')]",
-      "metadata": {
-        "description": "RBAC is disabled to support legacy Access Policies."
-      },
       "properties": {
-        "enableRbacAuthorization": false,
+        "enableRbacAuthorization": true,
         "sku": {
           "family": "A",
           "name": "Standard"
@@ -238,7 +235,9 @@
         ],
         "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
-        "enabledForTemplateDeployment": true
+        "enabledForTemplateDeployment": true,
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 90
       }
     },
     {
@@ -315,10 +314,7 @@
       "location": "[parameters('location')]",
       "kind": "app,linux",
       "identity": {
-        "type": "None"
-      },
-      "metadata": {
-        "description": "Authentication is disabled in child resource authsettingsV2."
+        "type": "SystemAssigned"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
@@ -359,7 +355,7 @@
           "location": "[parameters('location')]",
           "properties": {
             "platform": {
-              "enabled": false
+              "enabled": true
             },
             "globalValidation": {
               "requireAuthentication": false,
@@ -367,6 +363,11 @@
             },
             "login": {
               "tokenStore": {
+                "enabled": false
+              }
+            },
+            "identityProviders": {
+              "azureActiveDirectory": {
                 "enabled": false
               }
             }
@@ -381,10 +382,7 @@
       "location": "[parameters('location')]",
       "kind": "app,linux",
       "identity": {
-        "type": "None"
-      },
-      "metadata": {
-        "description": "Authentication is disabled in child resource authsettingsV2."
+        "type": "SystemAssigned"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
@@ -425,7 +423,7 @@
           "location": "[parameters('location')]",
           "properties": {
             "platform": {
-              "enabled": false
+              "enabled": true
             },
             "globalValidation": {
               "requireAuthentication": false,
@@ -433,6 +431,11 @@
             },
             "login": {
               "tokenStore": {
+                "enabled": false
+              }
+            },
+            "identityProviders": {
+              "azureActiveDirectory": {
                 "enabled": false
               }
             }
@@ -447,10 +450,7 @@
       "location": "[parameters('location')]",
       "kind": "app,linux",
       "identity": {
-        "type": "None"
-      },
-      "metadata": {
-        "description": "Authentication is disabled in child resource authsettingsV2."
+        "type": "SystemAssigned"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
@@ -491,7 +491,7 @@
           "location": "[parameters('location')]",
           "properties": {
             "platform": {
-              "enabled": false
+              "enabled": true
             },
             "globalValidation": {
               "requireAuthentication": false,
@@ -499,6 +499,11 @@
             },
             "login": {
               "tokenStore": {
+                "enabled": false
+              }
+            },
+            "identityProviders": {
+              "azureActiveDirectory": {
                 "enabled": false
               }
             }
@@ -579,7 +584,7 @@
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
-        "http20Enabled": false,
+        "http20Enabled": true,
         "minTlsVersion": "1.2",
         "ftpsState": "FtpsOnly",
         "reservedInstanceCount": 0,
@@ -660,7 +665,7 @@
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
-        "http20Enabled": false,
+        "http20Enabled": true,
         "minTlsVersion": "1.2",
         "ftpsState": "FtpsOnly",
         "reservedInstanceCount": 0,
@@ -741,7 +746,7 @@
           }
         ],
         "scmIpSecurityRestrictionsUseMain": false,
-        "http20Enabled": false,
+        "http20Enabled": true,
         "minTlsVersion": "1.2",
         "ftpsState": "FtpsOnly",
         "reservedInstanceCount": 0,
