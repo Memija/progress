@@ -371,6 +371,9 @@
                 "enabled": false
               }
             }
+          },
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
           }
         }
       ]
@@ -439,6 +442,9 @@
                 "enabled": false
               }
             }
+          },
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
           }
         }
       ]
@@ -507,6 +513,9 @@
                 "enabled": false
               }
             }
+          },
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
           }
         }
       ]
