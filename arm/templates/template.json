@@ -66,6 +66,9 @@
       "apiVersion": "2019-09-01",
       "name": "[parameters('keyVaultName')]",
       "location": "[parameters('location')]",
+      "metadata": {
+        "description": "RBAC is disabled to support legacy Access Policies."
+      },
       "properties": {
         "enableRbacAuthorization": false,
         "sku": {
@@ -311,6 +314,12 @@
       "name": "[parameters('productionEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "identity": {
+        "type": "None"
+      },
+      "metadata": {
+        "description": "Authentication is disabled in child resource authsettingsV2."
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
@@ -349,6 +358,12 @@
       "name": "[parameters('devEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "identity": {
+        "type": "None"
+      },
+      "metadata": {
+        "description": "Authentication is disabled in child resource authsettingsV2."
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
@@ -387,6 +402,12 @@
       "name": "[parameters('testEnvironmentAppServiceName')]",
       "location": "[parameters('location')]",
       "kind": "app,linux",
+      "identity": {
+        "type": "None"
+      },
+      "metadata": {
+        "description": "Authentication is disabled in child resource authsettingsV2."
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
