@@ -353,6 +353,9 @@
           "apiVersion": "2020-12-01",
           "name": "authsettingsV2",
           "location": "[parameters('location')]",
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
+          },
           "properties": {
             "platform": {
               "enabled": true
@@ -371,9 +374,6 @@
                 "enabled": false
               }
             }
-          },
-          "metadata": {
-            "description": "Anonymous access is explicitly allowed for this public facing application."
           }
         }
       ]
@@ -424,6 +424,9 @@
           "apiVersion": "2020-12-01",
           "name": "authsettingsV2",
           "location": "[parameters('location')]",
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
+          },
           "properties": {
             "platform": {
               "enabled": true
@@ -442,9 +445,6 @@
                 "enabled": false
               }
             }
-          },
-          "metadata": {
-            "description": "Anonymous access is explicitly allowed for this public facing application."
           }
         }
       ]
@@ -495,6 +495,9 @@
           "apiVersion": "2020-12-01",
           "name": "authsettingsV2",
           "location": "[parameters('location')]",
+          "metadata": {
+            "description": "Anonymous access is explicitly allowed for this public facing application."
+          },
           "properties": {
             "platform": {
               "enabled": true
@@ -513,9 +516,6 @@
                 "enabled": false
               }
             }
-          },
-          "metadata": {
-            "description": "Anonymous access is explicitly allowed for this public facing application."
           }
         }
       ]
