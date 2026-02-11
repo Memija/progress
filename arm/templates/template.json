@@ -50,17 +50,8 @@
       "platform": {
         "enabled": true
       },
-      "globalValidation": {
-        "requireAuthentication": false,
-        "unauthenticatedClientAction": "AllowAnonymous"
-      },
       "login": {
         "tokenStore": {
-          "enabled": false
-        }
-      },
-      "identityProviders": {
-        "azureActiveDirectory": {
           "enabled": false
         }
       }
@@ -375,7 +366,19 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": "[variables('authSettingsProperties')]"
+          "properties": {
+            "platform": "[variables('authSettingsProperties').platform]",
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": "[variables('authSettingsProperties').login]",
+            "identityProviders": {
+              "azureActiveDirectory": {
+                "enabled": false
+              }
+            }
+          }
         }
       ]
     },
@@ -428,7 +431,19 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": "[variables('authSettingsProperties')]"
+          "properties": {
+            "platform": "[variables('authSettingsProperties').platform]",
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": "[variables('authSettingsProperties').login]",
+            "identityProviders": {
+              "azureActiveDirectory": {
+                "enabled": false
+              }
+            }
+          }
         }
       ]
     },
@@ -481,7 +496,19 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": "[variables('authSettingsProperties')]"
+          "properties": {
+            "platform": "[variables('authSettingsProperties').platform]",
+            "globalValidation": {
+              "requireAuthentication": false,
+              "unauthenticatedClientAction": "AllowAnonymous"
+            },
+            "login": "[variables('authSettingsProperties').login]",
+            "identityProviders": {
+              "azureActiveDirectory": {
+                "enabled": false
+              }
+            }
+          }
         }
       ]
     },
