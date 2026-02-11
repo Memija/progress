@@ -349,9 +349,9 @@
       },
       "resources": [
         {
+          "name": "authsettingsV2",
           "type": "config",
           "apiVersion": "2020-12-01",
-          "name": "authsettingsV2",
           "location": "[parameters('location')]",
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
@@ -420,9 +420,9 @@
       },
       "resources": [
         {
+          "name": "authsettingsV2",
           "type": "config",
           "apiVersion": "2020-12-01",
-          "name": "authsettingsV2",
           "location": "[parameters('location')]",
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
@@ -491,9 +491,9 @@
       },
       "resources": [
         {
+          "name": "authsettingsV2",
           "type": "config",
           "apiVersion": "2020-12-01",
-          "name": "authsettingsV2",
           "location": "[parameters('location')]",
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
