@@ -46,6 +46,25 @@
   "variables": {
     "allowAllDescription": "Allow all access",
     "allowAllName": "Allow all",
+    "authSettingsProperties": {
+      "platform": {
+        "enabled": true
+      },
+      "globalValidation": {
+        "requireAuthentication": false,
+        "unauthenticatedClientAction": "AllowAnonymous"
+      },
+      "login": {
+        "tokenStore": {
+          "enabled": false
+        }
+      },
+      "identityProviders": {
+        "azureActiveDirectory": {
+          "enabled": false
+        }
+      }
+    },
     "azureWebsitesSuffix": ".azurewebsites.net"
   },
   "resources": [
@@ -356,25 +375,7 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": {
-            "platform": {
-              "enabled": true
-            },
-            "globalValidation": {
-              "requireAuthentication": false,
-              "unauthenticatedClientAction": "AllowAnonymous"
-            },
-            "login": {
-              "tokenStore": {
-                "enabled": false
-              }
-            },
-            "identityProviders": {
-              "azureActiveDirectory": {
-                "enabled": false
-              }
-            }
-          }
+          "properties": "[variables('authSettingsProperties')]"
         }
       ]
     },
@@ -427,25 +428,7 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": {
-            "platform": {
-              "enabled": true
-            },
-            "globalValidation": {
-              "requireAuthentication": false,
-              "unauthenticatedClientAction": "AllowAnonymous"
-            },
-            "login": {
-              "tokenStore": {
-                "enabled": false
-              }
-            },
-            "identityProviders": {
-              "azureActiveDirectory": {
-                "enabled": false
-              }
-            }
-          }
+          "properties": "[variables('authSettingsProperties')]"
         }
       ]
     },
@@ -498,25 +481,7 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": {
-            "platform": {
-              "enabled": true
-            },
-            "globalValidation": {
-              "requireAuthentication": false,
-              "unauthenticatedClientAction": "AllowAnonymous"
-            },
-            "login": {
-              "tokenStore": {
-                "enabled": false
-              }
-            },
-            "identityProviders": {
-              "azureActiveDirectory": {
-                "enabled": false
-              }
-            }
-          }
+          "properties": "[variables('authSettingsProperties')]"
         }
       ]
     },
