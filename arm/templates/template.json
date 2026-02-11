@@ -46,6 +46,16 @@
   "variables": {
     "allowAllDescription": "Allow all access",
     "allowAllName": "Allow all",
+    "authSettingsProperties": {
+      "platform": {
+        "enabled": true
+      },
+      "login": {
+        "tokenStore": {
+          "enabled": false
+        }
+      }
+    },
     "azureWebsitesSuffix": ".azurewebsites.net"
   },
   "resources": [
@@ -349,26 +359,20 @@
       },
       "resources": [
         {
+          "name": "authsettingsV2",
           "type": "config",
           "apiVersion": "2020-12-01",
-          "name": "authsettingsV2",
           "location": "[parameters('location')]",
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
           "properties": {
-            "platform": {
-              "enabled": true
-            },
+            "platform": "[variables('authSettingsProperties').platform]",
             "globalValidation": {
               "requireAuthentication": false,
               "unauthenticatedClientAction": "AllowAnonymous"
             },
-            "login": {
-              "tokenStore": {
-                "enabled": false
-              }
-            },
+            "login": "[variables('authSettingsProperties').login]",
             "identityProviders": {
               "azureActiveDirectory": {
                 "enabled": false
@@ -420,26 +424,20 @@
       },
       "resources": [
         {
+          "name": "authsettingsV2",
           "type": "config",
           "apiVersion": "2020-12-01",
-          "name": "authsettingsV2",
           "location": "[parameters('location')]",
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
           "properties": {
-            "platform": {
-              "enabled": true
-            },
+            "platform": "[variables('authSettingsProperties').platform]",
             "globalValidation": {
               "requireAuthentication": false,
               "unauthenticatedClientAction": "AllowAnonymous"
             },
-            "login": {
-              "tokenStore": {
-                "enabled": false
-              }
-            },
+            "login": "[variables('authSettingsProperties').login]",
             "identityProviders": {
               "azureActiveDirectory": {
                 "enabled": false
@@ -491,26 +489,20 @@
       },
       "resources": [
         {
+          "name": "authsettingsV2",
           "type": "config",
           "apiVersion": "2020-12-01",
-          "name": "authsettingsV2",
           "location": "[parameters('location')]",
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
           "properties": {
-            "platform": {
-              "enabled": true
-            },
+            "platform": "[variables('authSettingsProperties').platform]",
             "globalValidation": {
               "requireAuthentication": false,
               "unauthenticatedClientAction": "AllowAnonymous"
             },
-            "login": {
-              "tokenStore": {
-                "enabled": false
-              }
-            },
+            "login": "[variables('authSettingsProperties').login]",
             "identityProviders": {
               "azureActiveDirectory": {
                 "enabled": false
