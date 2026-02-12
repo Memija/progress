@@ -46,17 +46,74 @@
   "variables": {
     "allowAllDescription": "Allow all access",
     "allowAllName": "Allow all",
-    "authSettingsProperties": {
+    "azureWebsitesSuffix": ".azurewebsites.net",
+    "adminPermissions": {
+      "keys": [
+        "Get",
+        "List",
+        "Update",
+        "Create",
+        "Import",
+        "Delete",
+        "Recover",
+        "Backup",
+        "Restore",
+        "Decrypt",
+        "Encrypt",
+        "UnwrapKey",
+        "WrapKey",
+        "Verify",
+        "Sign",
+        "Purge"
+      ],
+      "secrets": [
+        "Get",
+        "List",
+        "Set",
+        "Delete",
+        "Recover",
+        "Backup",
+        "Restore",
+        "Purge"
+      ],
+      "certificates": [
+        "Get",
+        "List",
+        "Update",
+        "Create",
+        "Import",
+        "Delete",
+        "Recover",
+        "Backup",
+        "Restore",
+        "ManageContacts",
+        "ManageIssuers",
+        "GetIssuers",
+        "ListIssuers",
+        "SetIssuers",
+        "DeleteIssuers",
+        "Purge"
+      ]
+    },
+    "authSettingsV2Config": {
       "platform": {
         "enabled": true
+      },
+      "globalValidation": {
+        "requireAuthentication": false,
+        "unauthenticatedClientAction": "AllowAnonymous"
       },
       "login": {
         "tokenStore": {
           "enabled": false
         }
+      },
+      "identityProviders": {
+        "azureActiveDirectory": {
+          "enabled": false
+        }
       }
-    },
-    "azureWebsitesSuffix": ".azurewebsites.net"
+    }
   },
   "resources": [
     {
@@ -87,106 +144,12 @@
           {
             "tenantId": "[parameters('tenantIdValue')]",
             "objectId": "142e3512-d569-41d1-9092-a3a5fce500c7",
-            "permissions": {
-              "keys": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "Decrypt",
-                "Encrypt",
-                "UnwrapKey",
-                "WrapKey",
-                "Verify",
-                "Sign",
-                "Purge"
-              ],
-              "secrets": [
-                "Get",
-                "List",
-                "Set",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "Purge"
-              ],
-              "certificates": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "ManageContacts",
-                "ManageIssuers",
-                "GetIssuers",
-                "ListIssuers",
-                "SetIssuers",
-                "DeleteIssuers",
-                "Purge"
-              ]
-            }
+            "permissions": "[variables('adminPermissions')]"
           },
           {
             "tenantId": "[parameters('tenantIdValue')]",
             "objectId": "8950297e-6d8d-49bb-94ef-34ac7fec726b",
-            "permissions": {
-              "keys": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "Decrypt",
-                "Encrypt",
-                "UnwrapKey",
-                "WrapKey",
-                "Verify",
-                "Sign",
-                "Purge"
-              ],
-              "secrets": [
-                "Get",
-                "List",
-                "Set",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "Purge"
-              ],
-              "certificates": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "ManageContacts",
-                "ManageIssuers",
-                "GetIssuers",
-                "ListIssuers",
-                "SetIssuers",
-                "DeleteIssuers",
-                "Purge"
-              ]
-            }
+            "permissions": "[variables('adminPermissions')]"
           },
           {
             "tenantId": "[parameters('tenantIdValue')]",
@@ -366,19 +329,7 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": {
-            "platform": "[variables('authSettingsProperties').platform]",
-            "globalValidation": {
-              "requireAuthentication": false,
-              "unauthenticatedClientAction": "AllowAnonymous"
-            },
-            "login": "[variables('authSettingsProperties').login]",
-            "identityProviders": {
-              "azureActiveDirectory": {
-                "enabled": false
-              }
-            }
-          }
+          "properties": "[variables('authSettingsV2Config')]"
         }
       ]
     },
@@ -431,19 +382,7 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": {
-            "platform": "[variables('authSettingsProperties').platform]",
-            "globalValidation": {
-              "requireAuthentication": false,
-              "unauthenticatedClientAction": "AllowAnonymous"
-            },
-            "login": "[variables('authSettingsProperties').login]",
-            "identityProviders": {
-              "azureActiveDirectory": {
-                "enabled": false
-              }
-            }
-          }
+          "properties": "[variables('authSettingsV2Config')]"
         }
       ]
     },
@@ -496,19 +435,7 @@
           "metadata": {
             "description": "Anonymous access is explicitly allowed for this public facing application."
           },
-          "properties": {
-            "platform": "[variables('authSettingsProperties').platform]",
-            "globalValidation": {
-              "requireAuthentication": false,
-              "unauthenticatedClientAction": "AllowAnonymous"
-            },
-            "login": "[variables('authSettingsProperties').login]",
-            "identityProviders": {
-              "azureActiveDirectory": {
-                "enabled": false
-              }
-            }
-          }
+          "properties": "[variables('authSettingsV2Config')]"
         }
       ]
     },
